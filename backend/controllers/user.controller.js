@@ -82,6 +82,8 @@ export const login = async (req, res) => {
         username: user.username,
         fullName: user.fullName,
         profilePhoto: user.profilePhoto,
+        message:"user Logged In successFully.",
+        success:true
       });
   } catch (error) {
     console.error("login error:", error.message);
