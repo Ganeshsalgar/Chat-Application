@@ -37,7 +37,7 @@ export const sendMessage = async (req , res) => {
         //socket.io
 
         return res.status(201).json({
-            message :"New message send Successfully."
+            newMessage
         })
 
     } catch (error) {

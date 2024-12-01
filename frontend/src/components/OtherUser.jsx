@@ -1,10 +1,21 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedUser } from '../redux/userSlice';
 
-const OtherUser = (props) => {
-    const user = props.user
+const OtherUser = ({user}) => {
+
+    const dispatch = useDispatch();
+    const {selectedUser} = useSelector(store => store.user)
+
+    const selectedUserHandler = (user) => {
+        console.log(user);
+        dispatch(setSelectedUser(user))
+        
+    }
+    
   return (
-    <div>
-      <div className="flex gap-5 items-center hover:bg-zinc-700  p-2 cursor-pointer">
+    <>
+      <div onClick={() => selectedUserHandler(user)} className={`${selectedUser?._id === user?._id ? 'bg-zinc-700 ' : ""}flex gap-5 items-center hover:bg-zinc-700  p-2 cursor-pointer`}>
         <div className="avatar online">
           <div className="w-10 rounded-full">
             <img
@@ -20,7 +31,7 @@ const OtherUser = (props) => {
         </div>
       </div>
       <div className="divider divider-neutral my-0 py-0"></div>
-    </div>
+    </>
   )
 }
 
