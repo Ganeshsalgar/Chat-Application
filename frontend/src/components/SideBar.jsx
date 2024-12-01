@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-
 import OtherUsers from "./OtherUsers";
 import { useNavigate } from "react-router-dom";
-import { asyncThunkCreator } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { setOtherUsers } from "../redux/userSlice";
 
 const SideBar = () => {
 
+  const [search , setSearch] = useState("");
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {otherUsers} = useSelector(store => store.user)
 
 
     const submitHandler = async () => {
@@ -24,10 +28,24 @@ const SideBar = () => {
         }
     }
 
+    const searchSubmitHandler = (e) => {
+       e.preventDefault();
+
+       const conversationUser = otherUsers?.find((user) => user.fullName.toLowerCase().includes(search.toLowerCase()));
+       
+       if(conversationUser) {
+          dispatch(setOtherUsers([conversationUser]));
+       }else{
+         toast.error("User is Not Found!")
+       }
+    }
+
   return (
     <div className="border border-slate-500 p-4 flex flex-col">
-      <form action="" className="flex items-center gap-2">
+      <form onSubmit={searchSubmitHandler} action="" className="flex items-center gap-2">
         <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
           className="input input-bordered rounded-md"
           placeholder="search.."
           type="text"
